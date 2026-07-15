@@ -3,6 +3,8 @@ import 'package:first_project/screens/billing_settings_screen.dart';
 import 'package:first_project/screens/my_account_screeen.dart';
 import 'package:first_project/screens/order_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:iconly/iconly.dart';
 
 class AccountsScreen extends StatefulWidget {
   const AccountsScreen({super.key});
@@ -14,227 +16,237 @@ class AccountsScreen extends StatefulWidget {
 class _AccountsScreenState extends State<AccountsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
-        title: Center(
-          child: Text("Account",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w500
-          ),),
-        ),
-        leading: Icon(Icons.flag_sharp),
-        actions: [
-        Icon(Icons.notifications,size: 28,
-        ),Padding(padding: EdgeInsetsGeometry.only(right: 15))
-        ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.dark,
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark,
       ),
-
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsetsGeometry.symmetric(horizontal: 18,vertical: 20),
-
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              Text("My Profile",
-              style: TextStyle(
-               fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black
-               ),
+      child: RefreshIndicator(
+        onRefresh: () async {},
+        child: Scaffold(
+          backgroundColor: Colors.grey[100],
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
+            title: Center(
+              child: Text(
+                "Account",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
+            ),
+            leading: Icon(Icons.flag_outlined),
+            actions: [
+              Icon(IconlyLight.notification, size: 28),
+              Padding(padding: EdgeInsetsGeometry.only(right: 15)),
+            ],
+          ),
 
-              SizedBox(height: 16,),
+          body: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsetsGeometry.symmetric(horizontal: 18, vertical: 20),
 
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white60,
-                  borderRadius: BorderRadius.circular(9),
-                ),
-                child:
-                Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Row(
-                    children: [
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "My Profile",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
 
-                      Container(
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30)
-                        ),
-                        child: Center(
-                          child: Image.network("https://picsum.photos/800/450",
-                              fit: BoxFit.fill
-                          ),
-                        ),
+                  SizedBox(height: 16),
+
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => MyAccountScreen()),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white60,
+                        borderRadius: BorderRadius.circular(9),
                       ),
-                      
-                      SizedBox(width: 10,),
-                      
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          
-                          Text("Eva Williams",
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600
-                           ),
-                          ),
-
-                          Text("Premium",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey
+                      child: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 50,
+                              width: 50,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(shape: BoxShape.circle),
+                              child: Image.network(
+                                "https://picsum.photos/800/450",
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
-                        ],
+                            SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Eva Williams",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  "Premium",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            Spacer(),
+                            Icon(Icons.chevron_right),
+                          ],
+                        ),
                       ),
+                    ),
+                  ),
 
-                      SizedBox(width: 135,),
+                  SizedBox(height: 10),
 
-                      IconButton(onPressed: () {},
-                          icon: Icon(Icons.chevron_right),
-                      )
+                  Text(
+                    "SHOPPING",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                    ),
+                  ),
+
+                  SizedBox(height: 10),
+
+                  Column(
+                    children: [
+                      AccountTile(
+                        title: "Your Orders",
+                        icon: Icons.shopping_cart_checkout,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => OrdersScreen()),
+                          );
+                        },
+                      ),
                     ],
                   ),
-                ),
-              ),
 
-              SizedBox(height: 10,),
+                  SizedBox(height: 10),
 
-              Text("SHOPPING",
-                style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.black
-               ),
-              ),
-
-              SizedBox(height: 10,),
-              
-              Column(
-                children: [
-                  AccountTile(
-                      title: "Your Orders",
-                      icon: Icons.shopping_cart_checkout,
-                    onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => OrdersScreen(),
-                         ),
-                        );
-                    },
+                  Text(
+                    "ACCOUNT",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                    ),
                   ),
-                ],
-              ),
 
-              SizedBox(height: 10,),
+                  SizedBox(height: 10),
 
-              Text(
-                "ACCOUNT",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black
-                ),
-              ),
-              
-              SizedBox(height: 10,),
-              
-              Column(
-                children: [
-                  
-                  AccountTile(
-                      title: "My Account",
-                      icon: Icons.person,
-                    onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) =>
-                                MyAccountScreen(),
+                  Column(
+                    children: [
+                      AccountTile(
+                        title: "My Account",
+                        icon: Icons.person,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => MyAccountScreen()),
+                          );
+                        },
+                        backgroundColor: Colors.white60,
+                      ),
+
+                      AccountTile(
+                        title: "Address Book",
+                        icon: Icons.location_on_outlined,
+                        onTap: () {},
+                        backgroundColor: Colors.white60,
+                      ),
+
+                      AccountTile(
+                        title: "Shopping Preferences",
+                        icon: Icons.shopping_bag_outlined,
+                        onTap: () {},
+                        backgroundColor: Colors.white60,
+                      ),
+
+                      AccountTile(
+                        title: "Billing Settings",
+                        icon: Icons.credit_card_outlined,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => BillingSettingsScreen(),
                             ),
-                        );
-                    },
-                    backgroundColor: Colors.white60,
+                          );
+                        },
+                        backgroundColor: Colors.white60,
+                      ),
+
+                      AccountTile(
+                        title: "Analytics",
+                        icon: Icons.show_chart_outlined,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => AnalyticsScreen()),
+                          );
+                        },
+                        backgroundColor: Colors.white60,
+                      ),
+
+                      AccountTile(
+                        title: "Help & Support",
+                        icon: Icons.help_outline,
+                        onTap: () {},
+                        backgroundColor: Colors.white60,
+                      ),
+                    ],
                   ),
 
-                  AccountTile(
-                      title: "Address Book",
-                      icon: Icons.location_on_outlined,
-                    onTap: () {},
-                    backgroundColor: Colors.white60,
+                  SizedBox(height: 10),
+
+                  Text(
+                    "APPLICATION",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      color: Colors.black87,
+                    ),
                   ),
 
-                  AccountTile(
-                      title: "Shopping Preferences",
-                      icon: Icons.shopping_bag_outlined,
-                    onTap: () {},
-                    backgroundColor: Colors.white60,
-                  ),
+                  SizedBox(height: 10),
 
-                  AccountTile(
-                      title: "Billing Settings",
-                      icon: Icons.credit_card_outlined,
-                    onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => BillingSettingsScreen(),
-                          ),
-                        );
-                    },
-                    backgroundColor: Colors.white60,
-                  ),
-
-                  AccountTile(
-                      title: "Analytics",
-                      icon: Icons.show_chart_outlined,
-                    onTap: () {
-                        Navigator.push(context,
-                          MaterialPageRoute(builder: (_) =>
-                              AnalyticsScreen(),
-                         ),
-                        );
-                    },
-                    backgroundColor: Colors.white60,
-                  ),
-
-                  AccountTile(
-                      title: "Help & Support",
-                      icon: Icons.help_outline,
-                    onTap: () {},
-                    backgroundColor: Colors.white60,
-                  ),
-                ],
-              ),
-
-              SizedBox(height: 10,),
-
-              Text(
-                "APPLICATION",
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  color: Colors.black87
-                ),
-              ),
-
-              SizedBox(height: 10,),
-
-              Column(
-                children: [
-
-                  AccountTile(
-                      title: "System Settings",
-                      icon: Icons.settings_outlined,
-                    onTap: () {},
+                  Column(
+                    children: [
+                      AccountTile(
+                        title: "System Settings",
+                        icon: Icons.settings_outlined,
+                        onTap: () {},
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -243,13 +255,12 @@ class _AccountsScreenState extends State<AccountsScreen> {
 }
 
 class AccountTile extends StatelessWidget {
-  
   final String title;
   final IconData icon;
   final VoidCallback? onTap;
   final Widget? trailing;
   final Color backgroundColor;
-  
+
   const AccountTile({
     Key? key,
     required this.title,
@@ -270,37 +281,31 @@ class AccountTile extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
-        child: Padding(padding: EdgeInsetsGeometry.symmetric(
-          horizontal: 4,
-          vertical: 14,
-          ),
+        child: Padding(
+          padding: EdgeInsetsGeometry.symmetric(horizontal: 4, vertical: 14),
           child: Row(
             children: [
+              Icon(icon, size: 21, color: Colors.black87),
 
-              Icon(
-                icon,
-                size: 21,
-                color: Colors.black87,
-              ),
+              SizedBox(width: 18),
 
-              SizedBox(width: 18,),
-
-              Expanded(child: Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black87
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black87,
+                  ),
                 ),
-               )
               ),
 
               trailing ??
-            const Icon(
-              Icons.chevron_right,
-              color: Colors.black87,
-                size: 22,
-              ),
+                  const Icon(
+                    Icons.chevron_right,
+                    color: Colors.black87,
+                    size: 22,
+                  ),
             ],
           ),
         ),

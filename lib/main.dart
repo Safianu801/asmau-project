@@ -3,6 +3,7 @@ import 'package:first_project/screens/billing_settings_screen.dart';
 import 'package:first_project/screens/home_screen.dart';
 import 'package:first_project/screens/order_screen.dart';
 import 'package:first_project/screens/signup_screen.dart';
+import 'package:first_project/utilties/bottom_nav/custom_bottom_nav.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
 
       themeMode: ThemeMode.system,
 
-      home:AccountsScreen() ,
+      home: CustomBottomNav() ,
 
     );
   }
